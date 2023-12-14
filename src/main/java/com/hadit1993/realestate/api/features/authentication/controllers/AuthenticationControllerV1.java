@@ -1,9 +1,13 @@
 package com.hadit1993.realestate.api.features.authentication.controllers;
 
 
+import com.hadit1993.realestate.api.features.authentication.dtos.LoginUserDto;
 import com.hadit1993.realestate.api.features.authentication.dtos.RegisterUserDto;
 import com.hadit1993.realestate.api.features.authentication.services.AuthenticationServiceV1;
+import com.hadit1993.realestate.api.features.users.dtos.UserProfileDto;
 import com.hadit1993.realestate.api.utils.templetes.ResponseTemplate;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,11 +28,23 @@ public class AuthenticationControllerV1 {
 
 
     @PostMapping("/signup")
-    private ResponseEntity<ResponseTemplate<Void>> signup(@RequestBody @Valid RegisterUserDto userDto) {
+    public ResponseEntity<ResponseTemplate<Void>> signup(@RequestBody @Valid RegisterUserDto userDto) {
 
         authenticationService.signup(userDto);
 
         return ResponseTemplate.<Void>builder().message("User successfully registered").build().convertToResponse(HttpStatus.CREATED);
+    }
+
+    @PostMapping("/signin")
+    public ResponseEntity<ResponseTemplate<UserProfileDto>> signin(@RequestBody @Valid LoginUserDto userDto, HttpServletResponse response) {
+
+        var result = authenticationService.signin(userDto);
+        String token = (String) result.get("token");
+        Cookie cookie = new Cookie("accessToken", token);
+        cookie.setHttpOnly(true);
+        response.addCookie(cookie);
+        UserProfileDto user = (UserProfileDto) result.get("user");
+        return ResponseTemplate.<UserProfileDto>builder().data(user).message("User successfully logged in").build().convertToResponse();
 
 
     }

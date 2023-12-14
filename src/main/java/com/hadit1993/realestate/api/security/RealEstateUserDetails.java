@@ -10,7 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.List;
 
-public class CoffeeshopUserDetails implements UserDetails {
+public class RealEstateUserDetails implements UserDetails {
 
     private final String email;
     private final String password;
@@ -19,16 +19,16 @@ public class CoffeeshopUserDetails implements UserDetails {
 
     private final boolean isActive;
 
-    public CoffeeshopUserDetails(String email, String password, UserRole userRole, boolean isActive) {
+    public RealEstateUserDetails(String email, String password, UserRole userRole, boolean isActive) {
         this.email = email;
         this.password = password;
         this.userRole = userRole;
         this.isActive = isActive;
     }
 
-    public static CoffeeshopUserDetails create(User user) {
+    public static RealEstateUserDetails create(User user) {
 
-        return new CoffeeshopUserDetails(user.getEmail(), user.getPassword(), user.getUserRole(), user.isActive());
+        return new RealEstateUserDetails(user.getEmail(), user.getPassword(), user.getUserRole(), user.isActive());
     }
 
 
