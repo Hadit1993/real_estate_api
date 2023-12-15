@@ -42,6 +42,8 @@ public class AuthenticationControllerV1 {
         String token = (String) result.get("token");
         Cookie cookie = new Cookie("accessToken", token);
         cookie.setHttpOnly(true);
+        cookie.setPath("/");
+
         response.addCookie(cookie);
         UserProfileDto user = (UserProfileDto) result.get("user");
         return ResponseTemplate.<UserProfileDto>builder().data(user).message("User successfully logged in").build().convertToResponse();
