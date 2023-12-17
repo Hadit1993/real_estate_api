@@ -5,6 +5,7 @@ import java.util.Date;
 public record UserProfileDto(
         String username,
         String email,
+        String photo,
         Date creationDate,
         Date lastModifiedDate
 ) {

@@ -30,12 +30,18 @@ public class User extends Auditable {
     @Column(nullable = false)
     private String password;
 
+    @Column
+    private String photo;
+
     @Enumerated(EnumType.STRING)
     @Column(columnDefinition = "enum('CUSTOMER','SELLER','ADMIN') default 'CUSTOMER'")
     private UserRole userRole = UserRole.CUSTOMER;
 
     @Column(columnDefinition = "boolean default false", nullable = false)
     private boolean isActive = false;
+
+    @Column(nullable = false)
+    boolean isGoogleAccount = false;
 
     public void setEmail(String email) {
         this.email = email;
@@ -55,5 +61,13 @@ public class User extends Auditable {
 
     public void setActive(boolean active) {
         isActive = active;
+    }
+
+    public void setGoogleAccount(boolean googleAccount) {
+        isGoogleAccount = googleAccount;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
     }
 }

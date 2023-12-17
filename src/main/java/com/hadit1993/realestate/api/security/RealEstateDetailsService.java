@@ -24,4 +24,6 @@ public class RealEstateDetailsService implements UserDetailsService {
         if(user == null) throw new UsernameNotFoundException("no user found with this email");
         return RealEstateUserDetails.create(user);
     }
+
+
 }

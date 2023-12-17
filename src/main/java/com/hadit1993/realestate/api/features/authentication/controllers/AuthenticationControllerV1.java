@@ -1,6 +1,7 @@
 package com.hadit1993.realestate.api.features.authentication.controllers;
 
 
+import com.hadit1993.realestate.api.features.authentication.dtos.GoogleAuthDto;
 import com.hadit1993.realestate.api.features.authentication.dtos.LoginUserDto;
 import com.hadit1993.realestate.api.features.authentication.dtos.RegisterUserDto;
 import com.hadit1993.realestate.api.features.authentication.services.AuthenticationServiceV1;
@@ -32,13 +33,37 @@ public class AuthenticationControllerV1 {
 
         authenticationService.signup(userDto);
 
-        return ResponseTemplate.<Void>builder().message("User successfully registered").build().convertToResponse(HttpStatus.CREATED);
+        return ResponseTemplate.<Void>
+                        builder()
+                .message("User successfully registered")
+                .build()
+                .convertToResponse(HttpStatus.CREATED);
     }
 
     @PostMapping("/signin")
-    public ResponseEntity<ResponseTemplate<UserProfileDto>> signin(@RequestBody @Valid LoginUserDto userDto, HttpServletResponse response) {
+    public ResponseEntity<ResponseTemplate<UserProfileDto>> signin(
+            @RequestBody @Valid LoginUserDto userDto,
+            HttpServletResponse response) {
 
         var result = authenticationService.signin(userDto);
+        String token = (String) result.get("token");
+        Cookie cookie = new Cookie("accessToken", token);
+        cookie.setHttpOnly(true);
+        cookie.setPath("/");
+
+        response.addCookie(cookie);
+        UserProfileDto user = (UserProfileDto) result.get("user");
+        return ResponseTemplate.<UserProfileDto>builder().data(user).message("User successfully logged in").build().convertToResponse();
+
+
+    }
+
+    @PostMapping("/google")
+    public ResponseEntity<ResponseTemplate<UserProfileDto>> signinWithGoogle(
+            @RequestBody @Valid GoogleAuthDto userDto,
+            HttpServletResponse response) {
+
+        var result = authenticationService.signinGoogle(userDto);
         String token = (String) result.get("token");
         Cookie cookie = new Cookie("accessToken", token);
         cookie.setHttpOnly(true);
