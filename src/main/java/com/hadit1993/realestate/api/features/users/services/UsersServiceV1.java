@@ -5,7 +5,9 @@ import com.hadit1993.realestate.api.features.users.entities.User;
 import com.hadit1993.realestate.api.features.users.repositories.UserRepository;
 import com.hadit1993.realestate.api.utils.exceptions.BadRequestException;
 import com.hadit1993.realestate.api.utils.exceptions.NotFoundException;
+
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Map;
 import java.util.Objects;
@@ -56,6 +58,12 @@ public class UsersServiceV1 {
 
         return userRepository.save(user);
 
+    }
+
+
+    @Transactional
+    public void deleteAccount(String email) {
+        userRepository.deleteByEmail(email);
     }
 
 }

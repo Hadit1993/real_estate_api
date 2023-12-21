@@ -1,10 +1,12 @@
-package com.hadit1993.realestate.api.features.users;
+package com.hadit1993.realestate.api.features.users.controllers;
 
 import com.hadit1993.realestate.api.features.users.dtos.UserProfileDto;
 import com.hadit1993.realestate.api.features.users.dtos.UserUpdateDto;
 import com.hadit1993.realestate.api.features.users.entities.User;
 import com.hadit1993.realestate.api.features.users.services.UsersServiceV1;
 import com.hadit1993.realestate.api.utils.templetes.ResponseTemplate;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -38,4 +40,16 @@ public class UsersControllerV1 {
                 .convertToResponse();
 
     }
+
+    @DeleteMapping("/account")
+    public ResponseEntity<ResponseTemplate<Void>> deleteAccount(Authentication authentication, HttpServletResponse response) {
+             usersServiceV1.deleteAccount(authentication.getName());
+        Cookie cookie = new Cookie("accessToken", null);
+        cookie.setMaxAge(0);
+        cookie.setHttpOnly(true);
+        cookie.setPath("/");
+        response.addCookie(cookie);
+        return ResponseTemplate.<Void>builder().build().convertToResponse();
+    }
+
 }
