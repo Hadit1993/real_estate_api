@@ -77,7 +77,8 @@ public class AuthenticationServiceV1 {
         final Authentication authentication = authenticationProvider.authenticate(
                 new UsernamePasswordAuthenticationToken(user.getEmail(), password));
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        String token = jwtService.generateToken(authentication.getName(),
+
+        String token = jwtService.generateToken(user.getUserId().toString(),
                 authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList());
 
         return Map.of("token", token, "user", new UserProfileDto(
