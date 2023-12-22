@@ -12,10 +12,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/auth")
@@ -53,7 +51,7 @@ public class AuthenticationControllerV1 {
 
         response.addCookie(cookie);
         UserProfileDto user = (UserProfileDto) result.get("user");
-        return ResponseTemplate.<UserProfileDto>builder().data(user).message("User successfully logged in").build().convertToResponse();
+        return ResponseTemplate.<UserProfileDto>builder().data(user).message("You successfully logged in").build().convertToResponse();
 
 
     }
@@ -75,4 +73,6 @@ public class AuthenticationControllerV1 {
 
 
     }
+
+
 }

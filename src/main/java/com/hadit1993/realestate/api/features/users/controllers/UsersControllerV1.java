@@ -6,11 +6,15 @@ import com.hadit1993.realestate.api.features.users.entities.User;
 import com.hadit1993.realestate.api.features.users.services.UsersServiceV1;
 import com.hadit1993.realestate.api.utils.templetes.ResponseTemplate;
 import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/api/v1/users")
@@ -42,14 +46,9 @@ public class UsersControllerV1 {
     }
 
     @DeleteMapping("/account")
-    public ResponseEntity<ResponseTemplate<Void>> deleteAccount(Authentication authentication, HttpServletResponse response) {
-             usersServiceV1.deleteAccount(authentication.getName());
-        Cookie cookie = new Cookie("accessToken", null);
-        cookie.setMaxAge(0);
-        cookie.setHttpOnly(true);
-        cookie.setPath("/");
-        response.addCookie(cookie);
-        return ResponseTemplate.<Void>builder().build().convertToResponse();
+    public void deleteAccount(Authentication authentication, HttpServletResponse response) throws IOException {
+        usersServiceV1.deleteAccount(authentication.getName());
+        response.sendRedirect("/api/v1/auth/signout");
     }
 
 }
