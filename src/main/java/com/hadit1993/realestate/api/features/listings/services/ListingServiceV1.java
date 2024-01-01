@@ -29,5 +29,11 @@ public class ListingServiceV1 {
 
     }
 
+    public List<ListingDto> getListings(String email) {
+        User user = usersService.findUserByEmail(email);
+        List<Listing> listings = listingRepository.findByUser(user);
+        return  listings.stream().map(ListingDto::fromEntity).toList();
+    }
+
 
 }

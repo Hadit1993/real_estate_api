@@ -13,7 +13,7 @@ import java.util.List;
 public record CreateListingDto(
 
         @NotBlank(message = "name is required")
-        @Size(min = 3, max = 15, message = "name must be between 3 and 15 characters long")
+        @Size(min = 3, max = 100, message = "name must be between 3 and 100 characters long")
         String name,
         @NotBlank(message = "description is required")
         @Size(min = 10, max = 1000, message = "description must be between 10 and 1000 characters long")
@@ -25,6 +25,9 @@ public record CreateListingDto(
         Double regularPrice,
         @Max(value = 100, message = "discount must be between 0 and 100")
         Byte discount,
+
+        @NotNull( message = "bathrooms is required")
+        Byte bathrooms,
         @NotNull( message = "bedrooms is required")
         Byte bedrooms,
 
@@ -33,6 +36,9 @@ public record CreateListingDto(
 
         @NotNull( message = "hasParking is required")
         Boolean hasParking,
+
+        @NotNull( message = "offer is required")
+        Boolean offer,
 
         @NotNull(message = "listingType is required")
         @Enumerated(EnumType.STRING)
@@ -51,9 +57,11 @@ public record CreateListingDto(
                listing.setAddress(address());
                listing.setRegularPrice(regularPrice());
                listing.setDiscount(discount());
+               listing.setBathrooms(bathrooms());
                listing.setBedrooms(bedrooms());
                listing.setFurnished(furnished());
                listing.setHasParking(hasParking());
+               listing.setOffer(offer());
                listing.setListingType(listingType());
                listing.setImages(images);
                listing.setUser(user);

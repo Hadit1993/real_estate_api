@@ -15,7 +15,6 @@ import java.util.List;
 public class Listing extends Auditable {
 
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long listingId;
@@ -36,6 +35,9 @@ public class Listing extends Auditable {
     private Byte discount;
 
     @Column(nullable = false)
+    private Byte bathrooms;
+
+    @Column(nullable = false)
     private Byte bedrooms;
 
     @Column(nullable = false)
@@ -43,6 +45,9 @@ public class Listing extends Auditable {
 
     @Column(nullable = false)
     private Boolean hasParking = false;
+
+    @Column(nullable = false)
+    private Boolean offer = false;
 
     @Column(columnDefinition = "enum('RENT','SELL') default 'RENT'", nullable = false)
     @Enumerated(EnumType.STRING)
@@ -76,6 +81,10 @@ public class Listing extends Auditable {
         this.discount = discount;
     }
 
+    public void setBathrooms(Byte bathrooms) {
+        this.bathrooms = bathrooms;
+    }
+
     public void setBedrooms(Byte bedrooms) {
         this.bedrooms = bedrooms;
     }
@@ -86,6 +95,10 @@ public class Listing extends Auditable {
 
     public void setHasParking(Boolean hasParking) {
         this.hasParking = hasParking;
+    }
+
+    public void setOffer(Boolean offer) {
+        this.offer = offer;
     }
 
     public void setListingType(ListingType listingType) {
