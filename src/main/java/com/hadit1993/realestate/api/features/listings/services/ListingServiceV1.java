@@ -7,6 +7,7 @@ import com.hadit1993.realestate.api.features.listings.repositories.ListingReposi
 import com.hadit1993.realestate.api.features.users.entities.User;
 import com.hadit1993.realestate.api.features.users.services.UsersServiceV1;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -33,6 +34,12 @@ public class ListingServiceV1 {
         User user = usersService.findUserByEmail(email);
         List<Listing> listings = listingRepository.findByUser(user);
         return  listings.stream().map(ListingDto::fromEntity).toList();
+    }
+
+    @Transactional
+    public void deleteListing(String email, Long listingId) {
+        User user = usersService.findUserByEmail(email);
+        listingRepository.deleteByUserAndListingId(user, listingId);
     }
 
 

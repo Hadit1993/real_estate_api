@@ -50,6 +50,7 @@ public class Listing extends Auditable {
     private Boolean offer = false;
 
     @Column(columnDefinition = "enum('RENT','SELL') default 'RENT'", nullable = false)
+//    @Column( nullable = false)
     @Enumerated(EnumType.STRING)
     private ListingType listingType = ListingType.RENT;
 
@@ -57,7 +58,7 @@ public class Listing extends Auditable {
     @JoinColumn(name = "listingId", nullable = false)
     private List<ListingImage> images;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "userId", nullable = false)
     private User user;
 

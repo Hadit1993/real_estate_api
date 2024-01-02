@@ -41,4 +41,12 @@ public class ListingControllersV1 {
         return ResponseTemplate.<List<ListingDto>>builder().data(listings).build().convertToResponse();
 
     }
+
+    @DeleteMapping("/{listingId}")
+    public ResponseEntity<ResponseTemplate<Void>> deleteListing(@PathVariable("listingId") Long listingId ,Authentication authentication) {
+        String email = authentication.getName();
+        listingService.deleteListing(email, listingId);
+        return ResponseTemplate.<Void>builder().message("listing deleted successfully").build().convertToResponse();
+
+    }
 }

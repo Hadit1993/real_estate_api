@@ -9,4 +9,5 @@ import java.util.List;
 public interface ListingRepository extends JpaRepository<Listing, Long> {
 
     List<Listing> findByUser(User user);
+    void deleteByUserAndListingId(User user, Long listingId);
 }
