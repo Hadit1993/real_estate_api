@@ -49,4 +49,15 @@ public class ListingControllersV1 {
         return ResponseTemplate.<Void>builder().message("listing deleted successfully").build().convertToResponse();
 
     }
+
+    @PutMapping("/{listingId}")
+    public ResponseEntity<ResponseTemplate<ListingDto>> updateListing(
+            @RequestBody @Valid CreateListingDto listingDto,
+            @PathVariable("listingId") Long listingId,
+            Authentication authentication) {
+        String email = authentication.getName();
+        return ResponseTemplate.<ListingDto>builder().data(listingService.updateListing(listingDto, email,listingId)).build().convertToResponse();
+
+    }
+
 }

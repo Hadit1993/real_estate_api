@@ -1,5 +1,6 @@
 package com.hadit1993.realestate.api.utils;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;
 import jakarta.persistence.Temporal;
@@ -27,6 +28,7 @@ public abstract class Auditable {
 
     @CreatedDate
     @Temporal(TIMESTAMP)
+    @Column(updatable = false)
     protected Date creationDate;
 
     @LastModifiedDate

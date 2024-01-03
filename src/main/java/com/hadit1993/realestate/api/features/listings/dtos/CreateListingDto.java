@@ -8,7 +8,10 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.*;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public record CreateListingDto(
 
@@ -49,9 +52,8 @@ public record CreateListingDto(
 
 ) {
 
-       public Listing toEntity(User user) {
-               List<ListingImage> images = images().stream().map(ListingImage::new).toList();
-               Listing listing = new Listing();
+       public Listing toEntity(User user, Listing existing) {
+               Listing listing = existing != null ? existing : new Listing();
                listing.setName(name());
                listing.setDescription(description());
                listing.setAddress(address());
@@ -63,7 +65,7 @@ public record CreateListingDto(
                listing.setHasParking(hasParking());
                listing.setOffer(offer());
                listing.setListingType(listingType());
-               listing.setImages(images);
+                if(existing == null) listing.setImages(images.stream().map(ListingImage::new).collect(Collectors.toSet()));
                listing.setUser(user);
                return listing;
        }

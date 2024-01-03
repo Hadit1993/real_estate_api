@@ -6,12 +6,15 @@ import com.hadit1993.realestate.api.utils.Auditable;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @NoArgsConstructor
 @Getter
+@Setter
 public class Listing extends Auditable {
 
 
@@ -56,61 +59,11 @@ public class Listing extends Auditable {
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "listingId", nullable = false)
-    private List<ListingImage> images;
+    private Set<ListingImage> images;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "userId", nullable = false)
     private User user;
 
-    public void setName(String name) {
-        this.name = name;
-    }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public void setRegularPrice(Double regularPrice) {
-        this.regularPrice = regularPrice;
-    }
-
-    public void setDiscount(Byte discount) {
-        this.discount = discount;
-    }
-
-    public void setBathrooms(Byte bathrooms) {
-        this.bathrooms = bathrooms;
-    }
-
-    public void setBedrooms(Byte bedrooms) {
-        this.bedrooms = bedrooms;
-    }
-
-    public void setFurnished(Boolean furnished) {
-        this.furnished = furnished;
-    }
-
-    public void setHasParking(Boolean hasParking) {
-        this.hasParking = hasParking;
-    }
-
-    public void setOffer(Boolean offer) {
-        this.offer = offer;
-    }
-
-    public void setListingType(ListingType listingType) {
-        this.listingType = listingType;
-    }
-
-    public void setImages(List<ListingImage> images) {
-        this.images = images;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
 }
